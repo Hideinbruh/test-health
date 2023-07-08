@@ -1,4 +1,4 @@
-module awesomeProject3
+module github.com/Hideinbruh/test-health
 
 go 1.20
 

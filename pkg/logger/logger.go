@@ -1,8 +1,16 @@
 package logger
 
-import "github.com/sirupsen/logrus"
+import (
+	"github.com/sirupsen/logrus"
+)
 
-func Logger(err error) {
+var l logrus.Logger = func() logrus.Logger {
 	logger := logrus.New()
 	logger.SetLevel(logrus.DebugLevel)
+
+	return *logger
+}()
+
+func Infof(format string, args ...interface{}) {
+	l.Infof(format, args...)
 }

@@ -1,7 +1,7 @@
 package user
 
 import (
-	userService "awesomeProject3/internal/service/user"
+	userService "github.com/Hideinbruh/test-health/internal/service/user"
 	"github.com/gin-gonic/gin"
 )
 

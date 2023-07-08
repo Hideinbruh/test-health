@@ -1,11 +1,11 @@
 package user
 
 import (
-	userModel "awesomeProject3/internal/model/user"
+	userModel "github.com/Hideinbruh/test-health/internal/model/user"
 )
 
 type RepositoryUser interface {
-	SaveUser(user *userModel.User) error
+	SaveUser(user *userModel.UserInfo) (int64, error)
 }
 
 type repositoryUser struct {
@@ -15,6 +15,6 @@ func NewRepositoryUser() *repositoryUser {
 	return &repositoryUser{}
 }
 
-func (r *repositoryUser) SaveUser(user *userModel.User) error {
-	return nil
+func (r *repositoryUser) SaveUser(user *userModel.UserInfo) (int64, error) {
+	return 1, nil
 }

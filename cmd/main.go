@@ -1,9 +1,9 @@
 package main
 
 import (
-	userHandler "awesomeProject3/internal/handler/user"
-	userServer "awesomeProject3/internal/server/user"
-	userService "awesomeProject3/internal/service/user"
+	userHandler "github.com/Hideinbruh/test-health/internal/handler/user"
+	userServer "github.com/Hideinbruh/test-health/internal/server/user"
+	userService "github.com/Hideinbruh/test-health/internal/service/user"
 	"fmt"
 	"log"
 	"os"
@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+
+
 	srv := new(userServer.Server)
 	service := userService.NewService()
 	handler := userHandler.NewHandler(service)
