@@ -1,0 +1,21 @@
+version: '3'
+
+# Здесь описано, какие серисы необходимо развернуть и все настройки к ним
+
+volumes:
+  postgres_volume:
+  prometheus_data:
+
+services:
+  # Вот сервис постгреса
+  pg:
+    image: postgres:14-alpine3.17
+    environment:
+      # чтобы переменные прокинулись сюда, необходимо создать файл .env
+      - "POSTGRES_DB=${PG_DATABASE}"
+      - "POSTGRES_USER=${PG_USER}"
+      - "POSTGRES_PASSWORD=${PG_PASSWORD}"
+    ports:
+      - "${PG_PORT}:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data

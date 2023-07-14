@@ -17,7 +17,7 @@ func (s *service) Create(user *userModel.UserInfo) (int64, error) {
 		return 0, fmt.Errorf("validate: %w", err)
 	}
 
-	userId, err := s.repo.SaveUser(user)
+	userId, err := s.repo.Create(user)
 	if err != nil {
 		logger.Infof("error: %s", err.Error())
 		return 0, err

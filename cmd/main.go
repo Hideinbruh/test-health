@@ -1,21 +1,44 @@
 package main
 
 import (
-	userHandler "github.com/Hideinbruh/test-health/internal/handler/user"
-	userServer "github.com/Hideinbruh/test-health/internal/server/user"
-	userService "github.com/Hideinbruh/test-health/internal/service/user"
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
+	userHandler "github.com/Hideinbruh/test-health/internal/handler/user"
+	userRepo "github.com/Hideinbruh/test-health/internal/repository/user"
+	userServer "github.com/Hideinbruh/test-health/internal/server/user"
+	userService "github.com/Hideinbruh/test-health/internal/service/user"
+	"github.com/Hideinbruh/test-health/pkg/logger"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func main() {
+	ctx := context.Background()
 
+	// Чтобы не тратить время на парсинг переменных окружения, я сразу строку передам. Про переменные
+	// окружения расскажу на уроке
+	pgCfg, err := pgxpool.ParseConfig(
+		"host=localhost port=5432 dbname=health user=health-user password=health-password sslmode=disable",
+	)
+	if err != nil {
+		logger.Fatalf("failed to get db config: %s", err.Error())
+	}
+
+	//Нужон контекст и конфиг подключения
+	dbc, err := pgxpool.ConnectConfig(ctx, pgCfg)
+	if err != nil {
+		logger.Fatalf("failed to get db connection: %s", err.Error())
+	}
 
 	srv := new(userServer.Server)
-	service := userService.NewService()
+
+	// Теперь когда коннект сделан и создан слой репозитория, его надо передать в сервис, чтобы там воспользоваться
+	repository := userRepo.NewRepository(dbc)
+	service := userService.NewService(repository)
 	handler := userHandler.NewHandler(service)
 
 	go func() {
